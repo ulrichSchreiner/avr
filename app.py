@@ -77,14 +77,14 @@ def offWithVolume(volume):
 @checkKey
 def volumeup():
     vol = rx.volume
-    rx.volume = vol - 5
+    rx.volume = vol + 5
     return OK
 
 @route('/volumedown')
 @checkKey
 def volumedown():
     vol = rx.volume
-    rx.volume = vol + 5
+    rx.volume = vol - 5
     return OK
 
 
