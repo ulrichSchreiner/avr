@@ -61,9 +61,8 @@ def onWithVolume(input, volume):
     rx.on()
     time.sleep(2)
     rx.input(input)
-    time.sleep(1)
-    rx.volume = -80
-    rx.fade(int(volume))
+    time.sleep(2)
+    rx.volume = int(volume)
     return OK
 
 @route('/off/<volume>')
@@ -90,7 +89,7 @@ def volumedown():
 @route('/volume/<volume>')
 @checkKey
 def volume(volume):
-    rx.volume = volume
+    rx.volume = int(volume)
     return OK
 
 run(host='0.0.0.0', port=8080, reloader=True)
