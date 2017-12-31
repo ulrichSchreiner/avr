@@ -87,5 +87,10 @@ def volumedown():
     rx.volume = vol - 5
     return OK
 
+@route('/volume/<volume>')
+@checkKey
+def volume(volume):
+    rx.volume = volume
+    return OK
 
 run(host='0.0.0.0', port=8080, reloader=True)
