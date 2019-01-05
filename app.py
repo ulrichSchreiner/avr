@@ -23,6 +23,35 @@ class Receiver(object):
     def fade (self, vol):
       self._rx.volume_fade(vol)
 
+    def menu_status (self):
+      return self._rx.menu_status()
+
+    def serverstream(self, source, path):
+        layers = path.split(">")
+        self.input(source)
+
+        for i in range(10):
+            menu = self.wait_for_menu()
+            for line, value in menu.current_list.items():
+                if menu.layer > len(layers):
+                    # now click the "... stream" menu item
+                    self._rx.menu_jump_line(1)
+                    self._rx.menu_sel()
+                    return
+                if value == layers[menu.layer - 1]:
+                    lineno = line[5:]
+                    self._rx.menu_jump_line(lineno)
+                    self._rx.menu_sel()
+                    break
+
+    def wait_for_menu (self):
+        for attempts in range (20):
+            menu = self.menu_status()
+            if menu.ready:
+                return menu
+            else:
+                time.sleep(1)
+
     @property
     def volume (self):
       return self._rx.volume
@@ -55,11 +84,21 @@ def off():
     rx.off()
     return OK
 
+@route('/srv/<volume>/<menupath>')
+@checkKey
+def onWithServerPath(volume,menupath):
+    # menupath must be aka: "Fritzbox>Internetradio>mystream"
+    rx.on()
+    time.sleep(2)
+    rx.volume = int(volume)-20
+    rx.serverstream("SERVER", menupath)
+    rx.fade(int(volume))
+    return OK
+
 @route('/on/<input>/<volume>')
 @checkKey
 def onWithVolume(input, volume):
     rx.on()
-    time.sleep(2)
     rx.input(input)
     time.sleep(2)
     rx.volume = int(volume)

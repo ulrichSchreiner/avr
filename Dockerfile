@@ -1,4 +1,4 @@
-FROM ubuntu:17.10
+FROM ubuntu:18.04
 
 RUN apt -y update \
     && apt -y install python-pip \
@@ -10,4 +10,3 @@ RUN mkdir /app
 ADD app.py /app/app.py
 
 ENTRYPOINT ["/app/app.py"]
-
