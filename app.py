@@ -92,6 +92,7 @@ def onWithServerPath(volume,menupath):
     time.sleep(2)
     rx.volume = -80
     rx.serverstream("SERVER", menupath)
+    rx.wait_for_menu()
     rx.fade(int(volume))
     return OK
 
