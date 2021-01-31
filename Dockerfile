@@ -1,4 +1,4 @@
-FROM ubuntu:18.04
+FROM registry.gitlab.com/ulrichschreiner/base/debian:buster-slim
 
 RUN apt -y update \
     && apt -y install python-pip \
