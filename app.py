@@ -90,7 +90,7 @@ def onWithServerPath(volume,menupath):
     # menupath must be aka: "Fritzbox>Internetradio>mystream"
     rx.on()
     time.sleep(2)
-    rx.volume = -80
+    rx.volume = -70
     rx.serverstream("SERVER", menupath)
     rx.wait_for_menu()
     rx.fade(int(volume))
