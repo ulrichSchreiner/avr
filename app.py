@@ -21,7 +21,7 @@ class Receiver(object):
       self._rx.input = input
 
     def fade (self, vol):
-      self._rx.volume_fade(vol)
+      self._rx.volume_fade(vol,1)
 
     def menu_status (self):
       return self._rx.menu_status()
