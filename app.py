@@ -32,11 +32,13 @@ class Receiver(object):
 
         for i in range(10):
             menu = self.wait_for_menu()
+            print(i,menu, layers)
             for line, value in menu.current_list.items():
                 if menu.layer > len(layers):
                     # now click the "... stream" menu item
                     self._rx.menu_jump_line(1)
                     self._rx.menu_sel()
+                    self.wait_for_menu()
                     return
                 if value == layers[menu.layer - 1]:
                     lineno = line[5:]
@@ -48,6 +50,7 @@ class Receiver(object):
         for attempts in range (20):
             menu = self.menu_status()
             if menu.ready:
+                print ("wait: " , menu)
                 return menu
             else:
                 time.sleep(1)
@@ -92,7 +95,6 @@ def onWithServerPath(volume,menupath):
     time.sleep(2)
     rx.volume = -70
     rx.serverstream("SERVER", menupath)
-    rx.wait_for_menu()
     rx.fade(int(volume))
     return OK
 
