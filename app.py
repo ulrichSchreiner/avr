@@ -1,4 +1,4 @@
-#!/usr/bin/python
+#!/usr/bin/python3
 
 from bottle import route, run, template, request, abort
 import rxv
@@ -26,34 +26,8 @@ class Receiver(object):
     def menu_status (self):
       return self._rx.menu_status()
 
-    def serverstream(self, source, path):
-        layers = path.split(">")
-        self.input(source)
-
-        for i in range(10):
-            menu = self.wait_for_menu()
-            print(i,menu, layers)
-            for line, value in menu.current_list.items():
-                if menu.layer > len(layers):
-                    # now click the "... stream" menu item
-                    self._rx.menu_jump_line(1)
-                    self._rx.menu_sel()
-                    self.wait_for_menu()
-                    return
-                if value == layers[menu.layer - 1]:
-                    lineno = line[5:]
-                    self._rx.menu_jump_line(lineno)
-                    self._rx.menu_sel()
-                    break
-
-    def wait_for_menu (self):
-        for attempts in range (20):
-            menu = self.menu_status()
-            if menu.ready:
-                print ("wait: " , menu)
-                return menu
-            else:
-                time.sleep(1)
+    def serverstream(self, path):
+        self._rx.server(path)
 
     @property
     def volume (self):
@@ -90,11 +64,12 @@ def off():
 @route('/srv/<volume>/<menupath>')
 @checkKey
 def onWithServerPath(volume,menupath):
-    # menupath must be aka: "Fritzbox>Internetradio>mystream"
+    # menupath must be aka: "Fritz7590>Internetradio>Rock-Antenne>Rock-Antenne%20Stream"
     rx.on()
     time.sleep(2)
     rx.volume = -70
-    rx.serverstream("SERVER", menupath)
+    rx.serverstream(menupath)
+    time.sleep(5) # receiver needs at least 5 secs for next commands
     rx.fade(int(volume))
     return OK
 
