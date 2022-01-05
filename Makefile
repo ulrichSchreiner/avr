@@ -4,7 +4,7 @@ build:
 
 .PHONY:
 dev:
-	docker run -it --rm -p 8080:8080 -e KEY=$(KEY) -v $(PWD):/app -w /app --entrypoint bash quay.io/ulrichschreiner/avr
+	docker run -it --rm --net host -e KEY=$(KEY) -v $(PWD):/app -w /app --entrypoint bash quay.io/ulrichschreiner/avr
 
 .PHONY:
 poweron:

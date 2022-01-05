@@ -1,6 +1,6 @@
-FROM registry.gitlab.com/ulrichschreiner/base/debian:buster-slim
+FROM registry.gitlab.com/ulrichschreiner/base/debian:bullseye-slim
 
-ARG RXV=v0.7.0rc2
+ARG RXV=v0.7.0
 
 RUN apt -y update \
     && apt -y install python3-pip \
