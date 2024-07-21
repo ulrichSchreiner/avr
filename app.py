@@ -67,10 +67,11 @@ def onWithServerPath(volume,menupath):
     # menupath must be aka: "Fritz7590>Internetradio>Rock-Antenne>Rock-Antenne%20Stream"
     rx.on()
     time.sleep(2)
-    rx.volume = -70
+    rx.volume = int(volume)
     rx.serverstream(menupath)
-    time.sleep(5) # receiver needs at least 5 secs for next commands
-    rx.fade(int(volume))
+    time.sleep(2) # receiver needs at least 5 secs for next commands
+    #print("volume: ", volume)
+    #rx.fade(int(volume))
     return OK
 
 @route('/on/<input>/<volume>')
